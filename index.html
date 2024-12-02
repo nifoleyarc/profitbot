@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Profit Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea, button {
+            width: 100%;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Solana Profit Analyzer</h1>
+    <textarea id="inputData" rows="10" placeholder="Введите смарт-контракты и Mcap через новую строку. Пример:\n0xABC123 500000\n0xDEF456 1000000"></textarea>
+    <button id="analyzeButton">Анализ</button>
+    <table id="resultsTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Контракт</th>
+                <th>ATH Mcap</th>
+                <th>X's / Loss</th>
+                <th>Время до ATH</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        document.getElementById('analyzeButton').addEventListener('click', async () => {
+            const inputData = document.getElementById('inputData').value.trim();
+            if (!inputData) return alert('Введите данные для анализа');
+            
+            const response = await fetch('http://localhost:5000/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: inputData })
+            });
+
+            const results = await response.json();
+            const table = document.getElementById('resultsTable');
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            results.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${row.contract}</td><td>${row.ath_mcap}</td><td>${row.growth}</td><td>${row.time_to_ath}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            table.style.display = 'table';
+        });
+    </script>
+</body>
+</html>
