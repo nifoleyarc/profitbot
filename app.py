@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Вставьте ваш API-ключ Solscan
 SOLSCAN_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOjE3MzMxNjc0OTIwNTcsImVtYWlsIjoiYmxvZ2djaGV6QGdtYWlsLmNvbSIsImFjdGlvbiI6InRva2VuLWFwaSIsImFwaVZlcnNpb24iOiJ2MiIsImlhdCI6MTczMzE2NzQ5Mn0.bJH1x8C2hQPZ9SfSWkEO9k5JZ1UUZ5GqAPjeNhW34OY"
-BASE_URL = "https://pro-api.solscan.io/v2.0/token/meta"
+BASE_URL = "https://pro-api.solscan.io/v1/token/metadata"
 
 def analyze_token(token_address, entry_mcap):
     headers = {"accept": "application/json", "token": SOLSCAN_API_KEY}
